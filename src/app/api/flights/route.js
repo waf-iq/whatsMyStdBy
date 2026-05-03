@@ -5,7 +5,10 @@ export async function POST(req) {
   try {
     const { startTime, endTime } = await req.json();
 
-    const browser = await chromium.launch({ headless: true });
+    const browser = await chromium.launch({ 
+      headless: true,
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
+    });
     const page = await browser.newPage();
     
     // For MVP, we will check a handful of popular destinations from Sharjah to demonstrate functionality.
