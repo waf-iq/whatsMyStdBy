@@ -7,7 +7,7 @@ export async function POST(req) {
 
     const browser = await chromium.launch({ 
       headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
+      args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage', '--single-process']
     });
     const page = await browser.newPage();
     
@@ -112,7 +112,7 @@ export async function POST(req) {
     return NextResponse.json({ success: true, flights: validFlights });
 
   } catch (error) {
-    console.error(error);
-    return NextResponse.json({ success: false, error: 'Failed to fetch flight data' }, { status: 500 });
+    console.error('TOP LEVEL ERROR:', error);
+    return NextResponse.json({ success: false, error: error.message || 'Failed to fetch flight data' }, { status: 500 });
   }
 }
